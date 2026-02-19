@@ -9,9 +9,8 @@
   <meta property="og:title" content="Una sorpresa para Karelis 💘">
   <meta property="og:description" content="Presióname… y abre la sorpresa ✨">
   <meta property="og:type" content="website">
-
-  <!-- ⚠️ OG image debe ser URL de imagen directa. Usamos el mismo truco download=1 -->
-  <meta property="og:image" content="https://1drv.ms/i/c/486840d69f71eb4e/IQBKK86GvoX0RKw8vx8ZpcI4AWeOFX0UxdUMnUYOBRUN6qA?e=MhPbJc&download=1">
+  <!-- ✅ Ahora sí: imagen directa desde GitHub Pages -->
+  <meta property="og:image" content="https://marcogamer555.github.io/mensaje-karelis/Karelis-Marco1.jpeg">
   <meta name="theme-color" content="#8B0000">
 
   <style>
@@ -19,7 +18,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #333;
-      overflow: hidden;
+      overflow: hidden; /* dejamos el escenario intacto */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -56,7 +55,7 @@
     .open .curtain-left { transform: translateX(-100%); }
     .open .curtain-right { transform: translateX(100%); }
 
-    /* ✅ FIX: ya no se pierde verticalmente */
+    /* ✅ FIX vertical (sin tocar el body) */
     .content {
       position: relative;
       z-index: 1;
@@ -147,7 +146,7 @@
       50% { transform: scale(1.1); }
     }
 
-    /* NO TOCO tus fireworks */
+    /* ✅ Mantengo EXACTO tus fireworks */
     .fireworks {
       position: absolute;
       width: 100px;
@@ -155,6 +154,7 @@
       background: url('https://img1.picmix.com/output/stamp/normal/4/2/3/4/534324_71cd8.gif') no-repeat center;
       background-size: contain;
       animation: fadeInOut 2s infinite;
+      pointer-events: none; /* 🔥 para que no “robe” clicks */
     }
 
     @keyframes fadeInOut {
@@ -204,6 +204,7 @@
       background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
       background-size: cover;
       z-index: 3;
+      pointer-events: none;
     }
     .border-left { left: 0; }
     .border-right { right: 0; }
@@ -293,6 +294,7 @@
       animation: floatUp 2.8s linear forwards;
       z-index: 1;
       opacity: .9;
+      pointer-events: none;
     }
     .heart-float::before,
     .heart-float::after {
@@ -312,7 +314,6 @@
       100% { transform: translateY(-140px) rotate(45deg) scale(1.25); opacity: 0; }
     }
 
-    /* collage */
     .section-title {
       margin-top: 18px;
       font-size: 1.05rem;
@@ -349,29 +350,19 @@
         (sí, soy Marquitos, el que se queda pensando en ti más de lo normal)
       </div>
 
-      <!-- ✅ Foto Karelis / Marco (OneDrive directo con download=1) -->
+      <!-- ✅ Ahora carga desde GitHub Pages (estable) -->
       <div class="photos">
         <div class="photo-card">
           <div class="photo-title">Foto 1 (Karelis)</div>
           <div class="photo">
-            <img
-              src="https://1drv.ms/i/c/486840d69f71eb4e/IQACVLPOg0ODSbp9l-_g2oZ5Ab9tEtJAI0_PbEWs-RCP5DY?e=lmkrda&download=1"
-              alt="Karelis"
-              loading="lazy"
-              onerror="this.remove(); this.parentElement.textContent='(No se pudo cargar: revisa que el link sea “Cualquiera con el vínculo”)';"
-            >
+            <img src="./Karelis.jpeg" alt="Karelis" loading="lazy">
           </div>
         </div>
 
         <div class="photo-card">
           <div class="photo-title">Foto 2 (Marco)</div>
           <div class="photo">
-            <img
-              src="https://1drv.ms/i/c/486840d69f71eb4e/IQAXATj7bPXfRoqI1cJ5436WAVhl5r3Zn1pLnfB3Wl6P0iA?e=gSge8t&download=1"
-              alt="Marco"
-              loading="lazy"
-              onerror="this.remove(); this.parentElement.textContent='(No se pudo cargar: revisa permisos del link)';"
-            >
+            <img src="./marco.png" alt="Marco" loading="lazy">
           </div>
         </div>
       </div>
@@ -392,31 +383,20 @@
         yo te voy a recordar lo obvio: <b>me gustas tú</b>. Y punto. 😌
       </div>
 
-      <!-- ✅ Collage juntos -->
       <div class="section-title">Un mini collage nuestro 📸💞</div>
 
       <div class="collage">
         <div class="photo-card">
           <div class="photo-title">Juntos 1</div>
           <div class="photo">
-            <img
-              src="https://1drv.ms/i/c/486840d69f71eb4e/IQBKK86GvoX0RKw8vx8ZpcI4AWeOFX0UxdUMnUYOBRUN6qA?e=MhPbJc&download=1"
-              alt="Juntos 1"
-              loading="lazy"
-              onerror="this.remove(); this.parentElement.textContent='(No se pudo cargar juntos 1: revisa permisos)';"
-            >
+            <img src="./Karelis-Marco1.jpeg" alt="Juntos 1" loading="lazy">
           </div>
         </div>
 
         <div class="photo-card">
           <div class="photo-title">Juntos 2</div>
           <div class="photo">
-            <img
-              src="https://1drv.ms/i/c/486840d69f71eb4e/IQDzGkr1meE6T4gj2kJOUfSZASnTwdKKkX561Dlu3uh42gM?e=SuDUPr&download=1"
-              alt="Juntos 2"
-              loading="lazy"
-              onerror="this.remove(); this.parentElement.textContent='(No se pudo cargar juntos 2: revisa permisos)';"
-            >
+            <img src="./Karelis-Marco2.jpeg" alt="Juntos 2" loading="lazy">
           </div>
         </div>
       </div>
@@ -458,11 +438,15 @@
       document.getElementById('content').classList.add('visible');
       document.getElementById('hint').style.display = 'none';
       countdownElement.style.display = 'none';
+
+      // ✅ igual que tu versión original
       createFireworks();
 
+      // extra: corazoncitos al abrir (opcional)
       for (let i = 0; i < 14; i++) createFloatingHeart();
     }
 
+    // ✅ EXACTO tu lógica original
     function createFireworks() {
       for (let i = 0; i < 10; i++) {
         let firework = document.createElement('div');
@@ -470,23 +454,29 @@
         firework.style.top = Math.random() * 100 + '%';
         firework.style.left = Math.random() * 100 + '%';
         document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 2000);
+        setTimeout(() => {
+          firework.remove();
+        }, 2000);
       }
     }
 
+    // ✅ EXACTO tu lógica original
     function generateRandomFireworks() {
       let firework = document.createElement('div');
       firework.className = 'fireworks';
       firework.style.top = Math.random() * 100 + '%';
       firework.style.left = Math.random() * 100 + '%';
       document.body.appendChild(firework);
-      setTimeout(() => firework.remove(), 2000);
+      setTimeout(() => {
+        firework.remove();
+      }, 2000);
     }
 
+    // ✅ EXACTO tu intervalo original (cada 2s)
     setInterval(generateRandomFireworks, 2000);
 
     function toggleSecret(event) {
-      event.stopPropagation();
+      event.stopPropagation(); // evita que “re-dispare” el click del container
       const el = document.getElementById('secret');
       const showing = el.style.display === 'block';
       el.style.display = showing ? 'none' : 'block';
