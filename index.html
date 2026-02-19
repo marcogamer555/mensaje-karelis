@@ -145,7 +145,6 @@
       50% { transform: scale(1.12); }
     }
 
-    /* 🔥 Tus fireworks: mismos, solo les pongo un poquito más “pop” */
     .fireworks {
       position: absolute;
       width: 110px;
@@ -242,10 +241,9 @@
       letter-spacing: .2px;
     }
 
-    /* ✅ Ajuste clave: retrato consistente */
     .photo {
       width: 100%;
-      aspect-ratio: 3 / 4;   /* retrato: Karelis/Marco */
+      aspect-ratio: 3 / 4;
       border-radius: 14px;
       overflow: hidden;
       background: rgba(0,0,0,.25);
@@ -258,7 +256,7 @@
     .photo img {
       width: 100%;
       height: 100%;
-      object-fit: cover;      /* ✅ no se deforma */
+      object-fit: cover;
       object-position: center;
       display: block;
       transform: scale(1.02);
@@ -315,26 +313,37 @@
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-    /* ✅ Collage: retrato, sin texto arriba */
-    .collage .photo {
-      aspect-ratio: 4 / 5;
-    }
+    .collage .photo { aspect-ratio: 4 / 5; }
     @media (max-width: 520px) { .collage { grid-template-columns: 1fr; } }
 
-    /* ❤️ Corazones “bien visibles”: flotantes + glow */
+    /* ✅ FIX: corazón rosado REAL (no “dos círculos”) */
     .heart-float {
       position: absolute;
       width: 22px;
       height: 22px;
-      transform: rotate(45deg);
       animation: floatUp 2.8s linear forwards;
       z-index: 6;
       opacity: .95;
       pointer-events: none;
-      filter: drop-shadow(0 8px 18px rgba(255, 40, 120, .45));
+      filter: drop-shadow(0 10px 22px rgba(255, 40, 120, .50));
+      transform: translateZ(0);
     }
-    .heart-float::before,
-    .heart-float::after {
+
+    /* El cuadrado rotado es el “cuerpo / punta” */
+    .heart-float .h-core {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 0;
+      top: 0;
+      background: rgba(255, 40, 120, 0.95);
+      transform: rotate(45deg);
+      border-radius: 4px; /* suaviza bordes */
+    }
+
+    /* Los 2 círculos son los lóbulos */
+    .heart-float .h-core::before,
+    .heart-float .h-core::after {
       content: "";
       position: absolute;
       width: 22px;
@@ -342,16 +351,15 @@
       background: rgba(255, 40, 120, 0.95);
       border-radius: 50%;
     }
-    .heart-float::before { left: -11px; top: 0; }
-    .heart-float::after { left: 0; top: -11px; }
+    .heart-float .h-core::before { left: -11px; top: 0; }
+    .heart-float .h-core::after  { left: 0; top: -11px; }
 
     @keyframes floatUp {
-      0%   { transform: translateY(0) rotate(45deg) scale(.95); opacity: 0; }
+      0%   { opacity: 0; }
       12%  { opacity: 1; }
-      100% { transform: translateY(-190px) rotate(45deg) scale(1.25); opacity: 0; }
+      100% { opacity: 0; }
     }
 
-    /* ✨ Sparkles extra (pequeños destellos) */
     .sparkle {
       position: absolute;
       width: 6px;
@@ -462,12 +470,10 @@
 
     let alreadyOpened = false;
 
-    // ✅ Tap móvil
     document.getElementById('curtainContainer').addEventListener('touchstart', (e) => {
       openCurtains(e);
     }, { passive: true });
 
-    // ✅ NUEVO: Cuando ya está abierto, cada click/tap hace “show”
     document.addEventListener('click', (e) => {
       if (!alreadyOpened) return;
       burstAt(e.clientX, e.clientY);
@@ -482,7 +488,6 @@
 
     function openCurtains(e) {
       if (alreadyOpened) {
-        // si ya está abierto y vuelven a tocar, disparamos show
         if (e && e.clientX != null) burstAt(e.clientX, e.clientY);
         return;
       }
@@ -493,14 +498,10 @@
       document.getElementById('hint').style.display = 'none';
       countdownElement.style.display = 'none';
 
-      // ✅ como tu versión original: fireworks al abrir
       createFireworks();
-
-      // extra: burst grande de corazones + destellos
       burstAt(window.innerWidth * 0.5, window.innerHeight * 0.45, true);
     }
 
-    // ✅ EXACTO tu lógica original (fuegos al abrir)
     function createFireworks() {
       for (let i = 0; i < 10; i++) {
         let firework = document.createElement('div');
@@ -512,7 +513,6 @@
       }
     }
 
-    // ✅ EXACTO tu lógica original (aleatorios cada 2s)
     function generateRandomFireworks() {
       let firework = document.createElement('div');
       firework.className = 'fireworks';
@@ -529,51 +529,42 @@
       const showing = el.style.display === 'block';
       el.style.display = showing ? 'none' : 'block';
 
-      // show extra al abrir el secreto
       if (!showing) {
         createFireworks();
         burstAt(window.innerWidth * 0.5, window.innerHeight * 0.55, true);
       }
     }
 
-    // ✅ NUEVO: burst “bonito” (corazones + destellos + mini fireworks)
     function burstAt(x, y, big=false) {
-      // mini fireworks extra al tocar (como pediste)
       createFireworks();
 
       const hearts = big ? 22 : 12;
-      for (let i = 0; i < hearts; i++) {
-        createHeartBurst(x, y);
-      }
+      for (let i = 0; i < hearts; i++) createHeartBurst(x, y);
 
       const sparkles = big ? 18 : 10;
-      for (let i = 0; i < sparkles; i++) {
-        createSparkle(x, y);
-      }
+      for (let i = 0; i < sparkles; i++) createSparkle(x, y);
     }
 
     function createHeartBurst(x, y) {
       const h = document.createElement('div');
       h.className = 'heart-float';
 
-      // colocación desde el punto del click
-      h.style.left = (x - 10 + (Math.random() * 12 - 6)) + 'px';
-      h.style.top  = (y - 10 + (Math.random() * 12 - 6)) + 'px';
+      // ✅ Ahora sí: metemos el “cuerpo” del corazón
+      const core = document.createElement('div');
+      core.className = 'h-core';
+      h.appendChild(core);
 
-      // variación
+      h.style.left = (x - 11 + (Math.random() * 12 - 6)) + 'px';
+      h.style.top  = (y - 11 + (Math.random() * 12 - 6)) + 'px';
+
       const dur = (Math.random() * 1.2 + 2.0);
-      h.style.animationDuration = dur + 's';
-
-      // para que salga “en abanico”
       const driftX = (Math.random() * 140 - 70);
       const driftY = (Math.random() * 120 + 140);
 
-      // Hack: convertimos floatUp a trayectorias con CSS variable
-      // (sin reescribir tu animación base, solo empuja el elemento)
       h.animate([
-        { transform: 'translate(0,0) rotate(45deg) scale(.95)', opacity: 0 },
+        { transform: 'translate(0,0) scale(.95)', opacity: 0 },
         { opacity: 1, offset: 0.15 },
-        { transform: `translate(${driftX}px, ${-driftY}px) rotate(45deg) scale(1.25)`, opacity: 0 }
+        { transform: `translate(${driftX}px, ${-driftY}px) scale(1.25)`, opacity: 0 }
       ], { duration: dur * 1000, easing: 'linear', fill: 'forwards' });
 
       document.body.appendChild(h);
