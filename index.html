@@ -72,6 +72,9 @@
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255,255,255,.10);
       box-shadow: 0 18px 50px rgba(0,0,0,.35);
+
+      /* ✅ espacio extra abajo para que el último texto se vea */
+      padding-bottom: 34px;
     }
 
     .content.visible {
@@ -108,6 +111,7 @@
       margin-top: 8px;
     }
 
+    /* ❤️ Corazón rojo grande */
     .heart {
       width: 150px;
       height: 135px;
@@ -210,11 +214,14 @@
     .border-left { left: 0; }
     .border-right { right: 0; }
 
+    /* ✅ Responsive “bonito” para móvil: 2 columnas si cabe, si no 1 */
     .photos {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin: 14px auto 6px;
+      position: relative;
+      align-items: start;
     }
 
     .photo-card {
@@ -257,7 +264,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      /* ✅ en retratos suele verse mejor que centre más arriba */
+      object-position: center 20%;
       display: block;
       transform: scale(1.02);
       transition: transform .55s ease, filter .55s ease;
@@ -265,10 +273,55 @@
     }
     .photo-card:hover .photo img { transform: scale(1.08); }
 
+    /* ✅ “Y” con corazón rojo que une ambas cards */
+    .photos-connector {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .photos-connector .heart {
+      width: 72px;
+      height: 66px;
+      margin: 0;
+      animation: beat 1s infinite;
+      filter: drop-shadow(0 10px 22px rgba(255,0,0,.35));
+    }
+    .photos-connector .heart:before,
+    .photos-connector .heart:after {
+      width: 36px;
+      height: 58px;
+      border-radius: 36px 36px 0 0;
+    }
+    .photos-connector .heart:before { left: 36px; }
+    .photos-connector .heart:after { left: 0; }
+
+    /* ✅ Cuando la pantalla es chica, mantenemos 2 columnas mientras quepan */
     @media (max-width: 520px) {
-      .photos { grid-template-columns: 1fr; }
       .message.big { font-size: 1.45rem; }
       .content { max-height: calc(100vh - 40px); }
+
+      /* si el teléfono es típico, 2 columnas aún entran bien */
+      .photos { gap: 10px; }
+
+      /* corazón conector un poco más chico para que no tape caras */
+      .photos-connector { top: 54%; }
+      .photos-connector .heart { width: 60px; height: 55px; }
+      .photos-connector .heart:before,
+      .photos-connector .heart:after { width: 30px; height: 50px; border-radius: 30px 30px 0 0; }
+      .photos-connector .heart:before { left: 30px; }
+
+      /* si es MUY angosto, ahí sí 1 columna */
+      @media (max-width: 360px) {
+        .photos { grid-template-columns: 1fr; }
+        .photos-connector {
+          position: static;
+          transform: none;
+          margin: 10px auto 2px;
+        }
+      }
     }
 
     .btn {
@@ -314,9 +367,12 @@
       gap: 12px;
     }
     .collage .photo { aspect-ratio: 4 / 5; }
-    @media (max-width: 520px) { .collage { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) {
+      .collage { grid-template-columns: 1fr; }
+      .collage .photo img { object-position: center; }
+    }
 
-    /* ✅ FIX: corazón rosado REAL (no “dos círculos”) */
+    /* ✅ corazón rosado (burst) */
     .heart-float {
       position: absolute;
       width: 22px;
@@ -328,8 +384,6 @@
       filter: drop-shadow(0 10px 22px rgba(255, 40, 120, .50));
       transform: translateZ(0);
     }
-
-    /* El cuadrado rotado es el “cuerpo / punta” */
     .heart-float .h-core {
       position: absolute;
       width: 22px;
@@ -338,10 +392,8 @@
       top: 0;
       background: rgba(255, 40, 120, 0.95);
       transform: rotate(45deg);
-      border-radius: 4px; /* suaviza bordes */
+      border-radius: 4px;
     }
-
-    /* Los 2 círculos son los lóbulos */
     .heart-float .h-core::before,
     .heart-float .h-core::after {
       content: "";
@@ -375,6 +427,9 @@
       0% { transform: translate(0,0) scale(1); opacity: 1; }
       100% { transform: translate(var(--dx), var(--dy)) scale(.2); opacity: 0; }
     }
+
+    /* ✅ spacer final real */
+    .bottom-spacer { height: 26px; }
   </style>
 </head>
 
@@ -404,6 +459,11 @@
           </div>
         </div>
 
+        <!-- ❤️ corazón “Y” que une ambas -->
+        <div class="photos-connector" aria-hidden="true">
+          <div class="heart"></div>
+        </div>
+
         <div class="photo-card">
           <div class="photo-title">Marco</div>
           <div class="photo">
@@ -412,6 +472,7 @@
         </div>
       </div>
 
+      <!-- (Puedes dejar este corazón grande también si quieres más énfasis) -->
       <div class="heart"></div>
 
       <div class="message">
@@ -448,6 +509,8 @@
         Con cariño (y un poquito coqueto),<br>
         <b>Marco</b> 💘
       </div>
+
+      <div class="bottom-spacer"></div>
     </div>
 
     <div class="countdown" id="countdown">5</div>
@@ -549,7 +612,6 @@
       const h = document.createElement('div');
       h.className = 'heart-float';
 
-      // ✅ Ahora sí: metemos el “cuerpo” del corazón
       const core = document.createElement('div');
       core.className = 'h-core';
       h.appendChild(core);
